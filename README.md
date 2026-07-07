@@ -72,3 +72,6 @@ npm run start   # serve the production build
 ```
 
 A `Dockerfile` is included for container deploys (Railway, Fly.io, Cloud Run, etc.).
+
+For a bare VPS deployment with Postgres, GitHub push deploys, rollback, nginx,
+and daily backups, see [`docs/bare-vps-deploy.md`](docs/bare-vps-deploy.md).

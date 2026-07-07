@@ -1,0 +1,26 @@
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: ${DB_CONTAINER:-visiontemplate-db}
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-vision_template}
+      POSTGRES_USER: ${POSTGRES_USER:-visiontemplate}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD in /opt/visiontemplate/.env}
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ../db/setup.sql:/docker-entrypoint-initdb.d/001_setup.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U \"$${POSTGRES_USER}\" -d \"$${POSTGRES_DB}\""]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    networks:
+      - app
+
+volumes:
+  postgres-data:
+
+networks:
+  app:
+    name: ${NETWORK_NAME:-visiontemplate-net}

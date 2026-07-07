@@ -1,0 +1,12 @@
+[Unit]
+Description=VisionTemplate daily Postgres backup
+After=docker.service
+
+[Service]
+Type=oneshot
+User=visiondeploy
+Group=visiondeploy
+SupplementaryGroups=docker
+Environment=APP_ROOT=/opt/visiontemplate
+EnvironmentFile=/opt/visiontemplate/.env
+ExecStart=/opt/visiontemplate/bin/backup-postgres.sh

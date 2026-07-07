@@ -1,0 +1,19 @@
+[Unit]
+Description=VisionTemplate GitHub webhook deploy receiver
+After=network-online.target docker.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=visiondeploy
+Group=visiondeploy
+SupplementaryGroups=docker
+WorkingDirectory=/opt/visiontemplate
+Environment=APP_ROOT=/opt/visiontemplate
+EnvironmentFile=/opt/visiontemplate/.env
+ExecStart=/usr/bin/node /opt/visiontemplate/bin/webhook.js
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
